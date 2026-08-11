@@ -1,33 +1,49 @@
 name: Run Bot
 
-# Se dispara por repository_dispatch: un servicio externo (cron-job.org)
-# hace un POST a la API de GitHub cada minuto para lanzar este workflow
-# — el "schedule:" nativo de GitHub Actions tiene un mínimo real de 5
-# minutos, insuficiente para el seguimiento del bot. workflow_dispatch
-# permite lanzarlo manualmente también, para pruebas.
+# Se dispara por repository_dispatch desde cron-job.org.
+# También puede lanzarse manualmente mediante workflow_dispatch.
+
 on:
   repository_dispatch:
     types: [run-bot]
+
   workflow_dispatch:
 
 env:
   IMAGE_NAME: ghcr.io/drodrit/rodritrader
 
+# Evita que dos ejecuciones modifiquen state_rodri.json
+# al mismo tiempo.
+concurrency:
+  group: rodri-trader-bot
+  cancel-in-progress: false
+
 jobs:
   run:
     runs-on: ubuntu-latest
+
     permissions:
-      contents: write   # necesario para el commit automático de state_rodri.json
-      packages: read     # necesario para el docker pull de la imagen privada/pública en GHCR
+      contents: write
+      packages: read
+
     steps:
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
 
       - name: Log in to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            docker login ghcr.io \
+            -u "${{ github.actor }}" \
+            --password-stdin
 
       - name: Pull imagen del bot
-        run: docker pull ${{ env.IMAGE_NAME }}:latest
+        run: |
+          docker pull ${{ env.IMAGE_NAME }}:latest
 
       - name: Asegurar que existe state_rodri.json
         run: |
@@ -47,6 +63,16 @@ jobs:
         run: |
           git config user.name "rodri-bot"
           git config user.email "actions@users.noreply.github.com"
+
           git add state_rodri.json
-          git diff --staged --quiet || git commit -m "Actualizar estado del bot [skip ci]"
-          git push
+
+          if git diff --staged --quiet; then
+            echo "No hay cambios en state_rodri.json"
+            exit 0
+          fi
+
+          git commit -m "Actualizar estado del bot [skip ci]"
+
+          git pull --rebase origin main
+
+          git push origin main
