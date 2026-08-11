@@ -54,6 +54,19 @@ CORRECCIONES DE COMPORTAMIENTO respecto al bot_rodri.py original
   el hueco completo — es un tope de seguridad deliberado para no pedir
   miles de velas de golpe.
 
+DESVIACIÓN DE DISEÑO (no es un bug del original, es un cambio de
+comportamiento acordado explícitamente): en bot_rodri.py, macro_aligned
+=False solo añadía un aviso en el mensaje de Telegram, nunca bloqueaba
+la entrada. Aquí se convierte en un filtro duro: si la tendencia macro
+(EMA200 en HIGHER_TIMEFRAME) no coincide con la dirección de la señal,
+la señal se descarta ANTES de clasificar su calidad — se aplica por
+igual a señales normales y rojas. NEUTRAL (precio sin cruce claro de la
+EMA200) sigue contando como alineado, igual que en el original.
+CONSECUENCIA DE COSTE: check_higher_timeframe_trend() pasa de llamarse
+solo al abrir una posición a llamarse en cada ciclo en que haya señal
+del ensemble (incluso si acaba descartándose), porque ahora hace falta
+conocerla ANTES de decidir si la señal es accionable.
+
 NOTA (no es uno de los bugs acordados, se preserva 1:1): al cerrar una
 posición por SL/TP/flip, el precio de "exit" que se registra en el
 trade_log es el último cierre del timeframe de señales (5m), NO el
@@ -151,6 +164,15 @@ def check_higher_timeframe_trend(exchange, symbol: str, cfg) -> str:
     return "NEUTRAL"
 
 
+def is_macro_aligned(macro_trend: str, signal_direction: str) -> bool:
+    """
+    NEUTRAL cuenta como alineado (no bloquea), igual que en el bot_rodri.py
+    original. Solo bloquea una tendencia macro EXPLÍCITAMENTE contraria a
+    la dirección de la señal.
+    """
+    return macro_trend == "NEUTRAL" or macro_trend == signal_direction
+
+
 # ══════════════════════════════════════════════════════════
 # Cooldown / límites de posiciones / señales rojas
 # ══════════════════════════════════════════════════════════
@@ -219,6 +241,10 @@ def classify_signal_quality(signal: dict, dynamic_min_score: int, cfg) -> str:
     mínimos, tiene confluencia de varias estrategias
     (MIN_CONFLUENCE_FOR_NORMAL). Con una sola estrategia disparando, como
     mucho se trata como 'roja'.
+
+    NOTA: el filtro macro (is_macro_aligned) se aplica ANTES de llamar a
+    esta función, en check_symbol — si la señal no está alineada con la
+    tendencia macro, se descarta directamente sin llegar aquí.
     """
     has_confluence = signal["confluence"] >= cfg.MIN_CONFLUENCE_FOR_NORMAL
     if has_confluence and signal["score"] >= dynamic_min_score and signal["prob"] >= cfg.MIN_PROB:
@@ -299,11 +325,23 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
     signal = None if already_processed_this_candle else compute_ensemble_signal(df, cfg)
 
     quality = None
+    macro_trend = None
+    macro_aligned = True
     if signal:
-        dynamic_min_score = state.get("dynamic_min_score", cfg.MIN_SCORE)
-        quality = classify_signal_quality(signal, dynamic_min_score, cfg)
-        if quality == "roja" and red_signals_used_today(state, now) >= cfg.RED_MAX_PER_DAY:
-            quality = "descartada"  # límite diario de señales rojas alcanzado
+        # Filtro macro (15m): se evalúa ANTES de clasificar la calidad de
+        # la señal. Si no está alineada, se descarta aquí mismo — se
+        # aplica por igual a lo que habría sido señal normal o roja
+        # (decisión acordada explícitamente, ver docstring del módulo).
+        macro_trend = check_higher_timeframe_trend(exchange, symbol, cfg)
+        macro_aligned = is_macro_aligned(macro_trend, signal["direction"])
+
+        if not macro_aligned:
+            quality = "descartada"
+        else:
+            dynamic_min_score = state.get("dynamic_min_score", cfg.MIN_SCORE)
+            quality = classify_signal_quality(signal, dynamic_min_score, cfg)
+            if quality == "roja" and red_signals_used_today(state, now) >= cfg.RED_MAX_PER_DAY:
+                quality = "descartada"  # límite diario de señales rojas alcanzado
 
     actionable_signal = signal is not None and quality in ("normal", "roja")
 
@@ -323,11 +361,11 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
 
         leverage = suggest_leverage(df, cfg)
 
-        macro_trend = check_higher_timeframe_trend(exchange, symbol, cfg)
-        macro_aligned = (macro_trend == "NEUTRAL") or (macro_trend == signal["direction"])
-        macro_warning = ""
-        if not macro_aligned:
-            macro_warning = f"\n⚠️ *Aviso Macro:* Tendencia en {cfg.HIGHER_TIMEFRAME} es {macro_trend} (no coincide)"
+        # macro_trend/macro_aligned ya se calcularon en el paso 1. Aquí
+        # macro_aligned es siempre True: si hubiera sido False, la señal
+        # se habría marcado "descartada" y no se habría llegado a este
+        # bloque. Ya no existe un "aviso macro" que mostrar en el mensaje
+        # de apertura, porque una señal desalineada nunca llega a abrirse.
 
         new_pos = {
             "dir": signal["direction"],
@@ -365,8 +403,8 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
             print(f"[ERROR gráfico] {e}")
             chart_path = None
 
-        tg.notify_signal_opened(cfg, symbol, pos, macro_warning, last_candle_time, chart_path=chart_path)
-        console_msg = tg.build_signal_open_message(cfg, symbol, pos, macro_warning, last_candle_time)
+        tg.notify_signal_opened(cfg, symbol, pos, "", last_candle_time, chart_path=chart_path)
+        console_msg = tg.build_signal_open_message(cfg, symbol, pos, "", last_candle_time)
         print(console_msg.replace("*", "").replace("`", ""))
 
     # ── 4. Comprobar hits de SL/TP en timeframe de seguimiento (1m) ──
