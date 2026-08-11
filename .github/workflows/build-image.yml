@@ -1,0 +1,39 @@
+name: Build and Push Docker Image
+
+# Se dispara con cualquier push a main que modifique código o
+# dependencias (no con cambios solo de estado: los commits automáticos
+# de state_rodri.json en run-bot.yml llevan "[skip ci]" en el mensaje,
+# que GitHub respeta de forma nativa y salta este workflow también).
+# workflow_dispatch permite reconstruir manualmente si hace falta.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/*.py"
+      - "Dockerfile"
+      - "requirements.txt"
+  workflow_dispatch:
+
+env:
+  # GHCR/Docker exige minúsculas en el nombre de imagen; github.repository_owner
+  # sería "DrodriT" (con mayúscula), así que se hardcodea en minúsculas.
+  IMAGE_NAME: ghcr.io/drodrit/rodritrader
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker build -t ${{ env.IMAGE_NAME }}:latest .
+
+      - name: Push image
+        run: docker push ${{ env.IMAGE_NAME }}:latest

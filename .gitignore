@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+*.png
+# NOTA: state_rodri.json SÍ se versiona deliberadamente (a diferencia del
+# diseño inicial local). run-bot.yml hace commit automático de su
+# contenido tras cada ejecución en GitHub Actions, para persistir el
+# estado entre disparos del cron (los runners son efímeros).

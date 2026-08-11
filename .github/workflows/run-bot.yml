@@ -1,0 +1,52 @@
+name: Run Bot
+
+# Se dispara por repository_dispatch: un servicio externo (cron-job.org)
+# hace un POST a la API de GitHub cada minuto para lanzar este workflow
+# — el "schedule:" nativo de GitHub Actions tiene un mínimo real de 5
+# minutos, insuficiente para el seguimiento del bot. workflow_dispatch
+# permite lanzarlo manualmente también, para pruebas.
+on:
+  repository_dispatch:
+    types: [run-bot]
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: ghcr.io/drodrit/rodritrader
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # necesario para el commit automático de state_rodri.json
+      packages: read     # necesario para el docker pull de la imagen privada/pública en GHCR
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Pull imagen del bot
+        run: docker pull ${{ env.IMAGE_NAME }}:latest
+
+      - name: Asegurar que existe state_rodri.json
+        run: |
+          if [ ! -f state_rodri.json ]; then
+            echo '{}' > state_rodri.json
+          fi
+
+      - name: Ejecutar el bot (una pasada)
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}/state_rodri.json:/app/state_rodri.json" \
+            -e TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}" \
+            -e TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            ${{ env.IMAGE_NAME }}:latest
+
+      - name: Commit del estado actualizado (si cambió)
+        run: |
+          git config user.name "rodri-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add state_rodri.json
+          git diff --staged --quiet || git commit -m "Actualizar estado del bot [skip ci]"
+          git push
