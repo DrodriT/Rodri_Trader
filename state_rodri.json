@@ -1,34 +1,5 @@
 {
   "positions": {
-    "ETH/USDT:USDT": {
-      "dir": "ALCISTA",
-      "entry": 1889.1,
-      "entry_candle": "2026-08-12T06:05:00+00:00",
-      "sl": 1886.990357142857,
-      "tp1": 1891.2096428571429,
-      "tp2": 1892.6863928571427,
-      "tp3": 1892.6863928571427,
-      "tp_rr": [
-        1.0,
-        1.7,
-        1.7
-      ],
-      "tp1_reached": false,
-      "tp2_reached": false,
-      "tp3_reached": false,
-      "be_active": false,
-      "score": 58,
-      "prob": 0.62,
-      "strategies": [
-        "TREND_PULLBACK"
-      ],
-      "confluence": 1,
-      "leverage": 20,
-      "is_red": true,
-      "size_factor": 0.3,
-      "macro_trend": "ALCISTA",
-      "macro_aligned": true
-    },
     "OP/USDT:USDT": {
       "dir": "ALCISTA",
       "entry": 0.0908,
@@ -59,29 +30,53 @@
       "macro_aligned": true
     }
   },
-  "cooldowns": {},
+  "cooldowns": {
+    "ETH/USDT:USDT": "2026-08-12T10:14:32.272589+00:00"
+  },
   "red_signals_today": {
     "date": "2026-08-12",
     "count": 2
   },
-  "recent_results": [],
+  "recent_results": [
+    false
+  ],
   "dynamic_min_score": 60,
-  "trade_log": [],
+  "trade_log": [
+    {
+      "symbol": "ETH/USDT:USDT",
+      "dir": "ALCISTA",
+      "strategies": [
+        "TREND_PULLBACK"
+      ],
+      "confluence": 1,
+      "score": 58,
+      "prob": 0.62,
+      "is_red": true,
+      "leverage": 20,
+      "entry": 1889.1,
+      "exit": 1886.59,
+      "r_result": -0.3,
+      "is_win": false,
+      "close_reason": "sl",
+      "entry_candle": "2026-08-12T06:05:00+00:00",
+      "closed_at": "2026-08-12T06:14:32.272589+00:00"
+    }
+  ],
   "stats": {
     "total_signals": 2,
     "normal_signals": 0,
     "red_signals": 2,
     "long_signals": 2,
     "short_signals": 0,
-    "sl_hits": 0,
+    "sl_hits": 1,
     "tp1_hits": 0,
     "tp2_hits": 0,
     "tp3_hits": 0,
     "flips": 0,
     "wins": 0,
-    "losses": 0,
+    "losses": 1,
     "be_saves": 0,
-    "r_sum": 0.0
+    "r_sum": -0.3
   },
   "last_daily_summary_date": "2026-08-12",
   "startup_notified": true,
@@ -103,6 +98,5 @@
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-12T06:10:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-12T06:10:00+00:00",
   "DOGE/USDT:USDT_last_processed_candle": "2026-08-12T06:10:00+00:00",
-  "ETH/USDT:USDT_last_monitored_candle": "2026-08-12T06:13:00+00:00",
-  "OP/USDT:USDT_last_monitored_candle": "2026-08-12T06:13:00+00:00"
+  "OP/USDT:USDT_last_monitored_candle": "2026-08-12T06:14:00+00:00"
 }
