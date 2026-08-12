@@ -9,11 +9,12 @@ disparar las notificaciones de Telegram correspondientes.
 Qué hace:
     - compute_base_indicators: aplica los indicadores compartidos al
       DataFrame antes de correr las estrategias.
-    - get_stats / classify_closed_position / classify_signal_quality:
-      lógica de clasificación de resultados y calidad de señal.
+    - get_stats / classify_closed_position: lógica de clasificación de
+      resultados de operaciones cerradas.
     - Cooldown y señales rojas: is_in_cooldown, set_cooldown,
       can_open_new_trade, red_signals_used_today, register_red_signal.
-    - check_higher_timeframe_trend: filtro macro (EMA 200 en 15m).
+    - check_higher_timeframe_trend: filtro macro (EMA 200 en 15m) — hace
+      I/O al exchange, por eso vive aquí y no en filters/.
     - close_position: cierra una posición, registra stats/resultado y
       notifica por Telegram.
     - check_symbol: el orquestador por símbolo (señal -> apertura ->
@@ -27,6 +28,8 @@ Qué NO hace:
     - No calcula indicadores individuales, estrategias, niveles de
       riesgo ni el score del ensemble (delega en indicators/,
       strategies/, ensemble/ y risk/).
+    - No decide la calidad de una señal (delega en
+      filters/signal_quality_filter.py).
     - No decide cómo se persiste el estado (delega en
       storage/state_store.py).
     - No hace peticiones HTTP al exchange directamente más allá de
@@ -76,11 +79,18 @@ monitorización (1m). Esto ya era así en el bot_rodri.py original.
 Migrado desde bot_rodri.py: get_stats, check_higher_timeframe_trend,
 is_in_cooldown, set_cooldown, can_open_new_trade, _red_tracker,
 red_signals_used_today, register_red_signal, classify_closed_position,
-classify_signal_quality, close_position, check_symbol, run_once,
-maybe_send_daily_summary, notify_startup_once. compute_base_indicators
-viene de strategy_rodri.py (quedó huérfana tras dividir strategies/ y
+close_position, check_symbol, run_once, maybe_send_daily_summary,
+notify_startup_once. compute_base_indicators viene de
+strategy_rodri.py (quedó huérfana tras dividir strategies/ y
 ensemble/, se ubica aquí por ser preparación de datos previa a correr
 las estrategias dentro de check_symbol).
+
+REFACTOR: is_macro_aligned y classify_signal_quality se movieron a
+filters/signal_quality_filter.py (funciones puras, sin I/O ni estado),
+junto con una nueva función orquestadora determine_signal_quality que
+combina el filtro macro + score/prob/confluencia + límite diario de
+rojas en una sola llamada. Este archivo ya no las define localmente,
+solo las importa.
 """
 from datetime import datetime, timezone, timedelta
 
@@ -98,6 +108,7 @@ from risk.risk_management import (
     build_risk_levels, cap_tp_at_r, suggest_leverage,
     update_dynamic_threshold, register_result,
 )
+from filters.signal_quality_filter import determine_signal_quality, is_macro_aligned
 from exchange.market_data import create_exchange, fetch_ohlcv
 from charting.chart_generator import generate_signal_chart
 from storage.state_store import load_state, save_state
@@ -164,15 +175,6 @@ def check_higher_timeframe_trend(exchange, symbol: str, cfg) -> str:
     return "NEUTRAL"
 
 
-def is_macro_aligned(macro_trend: str, signal_direction: str) -> bool:
-    """
-    NEUTRAL cuenta como alineado (no bloquea), igual que en el bot_rodri.py
-    original. Solo bloquea una tendencia macro EXPLÍCITAMENTE contraria a
-    la dirección de la señal.
-    """
-    return macro_trend == "NEUTRAL" or macro_trend == signal_direction
-
-
 # ══════════════════════════════════════════════════════════
 # Cooldown / límites de posiciones / señales rojas
 # ══════════════════════════════════════════════════════════
@@ -216,7 +218,7 @@ def register_red_signal(state: dict, now: datetime) -> None:
 
 
 # ══════════════════════════════════════════════════════════
-# Clasificación de operación cerrada / calidad de señal
+# Clasificación de operación cerrada
 # ══════════════════════════════════════════════════════════
 
 def classify_closed_position(pos: dict, close_reason: str, was_be_at_start: bool):
@@ -232,26 +234,6 @@ def classify_closed_position(pos: dict, close_reason: str, was_be_at_start: bool
         is_win = False
         is_be_save = False
     return is_win, is_be_save, r_total
-
-
-def classify_signal_quality(signal: dict, dynamic_min_score: int, cfg) -> str:
-    """
-    Devuelve 'normal', 'roja' o 'descartada'. Una señal solo puede ser
-    'normal' (tamaño completo) si además de superar el score/prob
-    mínimos, tiene confluencia de varias estrategias
-    (MIN_CONFLUENCE_FOR_NORMAL). Con una sola estrategia disparando, como
-    mucho se trata como 'roja'.
-
-    NOTA: el filtro macro (is_macro_aligned) se aplica ANTES de llamar a
-    esta función, en check_symbol — si la señal no está alineada con la
-    tendencia macro, se descarta directamente sin llegar aquí.
-    """
-    has_confluence = signal["confluence"] >= cfg.MIN_CONFLUENCE_FOR_NORMAL
-    if has_confluence and signal["score"] >= dynamic_min_score and signal["prob"] >= cfg.MIN_PROB:
-        return "normal"
-    if signal["prob"] >= cfg.RED_MIN_PROB:
-        return "roja"
-    return "descartada"
 
 
 # ══════════════════════════════════════════════════════════
@@ -328,20 +310,16 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
     macro_trend = None
     macro_aligned = True
     if signal:
-        # Filtro macro (15m): se evalúa ANTES de clasificar la calidad de
-        # la señal. Si no está alineada, se descarta aquí mismo — se
-        # aplica por igual a lo que habría sido señal normal o roja
-        # (decisión acordada explícitamente, ver docstring del módulo).
+        # Filtro macro (15m) + score/prob/confluencia + límite diario de
+        # rojas: las tres reglas se resuelven en filters/, este archivo
+        # solo aporta lo que requiere I/O al exchange o al estado.
         macro_trend = check_higher_timeframe_trend(exchange, symbol, cfg)
         macro_aligned = is_macro_aligned(macro_trend, signal["direction"])
-
-        if not macro_aligned:
-            quality = "descartada"
-        else:
-            dynamic_min_score = state.get("dynamic_min_score", cfg.MIN_SCORE)
-            quality = classify_signal_quality(signal, dynamic_min_score, cfg)
-            if quality == "roja" and red_signals_used_today(state, now) >= cfg.RED_MAX_PER_DAY:
-                quality = "descartada"  # límite diario de señales rojas alcanzado
+        dynamic_min_score = state.get("dynamic_min_score", cfg.MIN_SCORE)
+        quality = determine_signal_quality(
+            signal, macro_trend, dynamic_min_score,
+            red_signals_used_today(state, now), cfg,
+        )
 
     actionable_signal = signal is not None and quality in ("normal", "roja")
 
@@ -362,10 +340,9 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
         leverage = suggest_leverage(df, cfg)
 
         # macro_trend/macro_aligned ya se calcularon en el paso 1. Aquí
-        # macro_aligned es siempre True: si hubiera sido False, la señal
-        # se habría marcado "descartada" y no se habría llegado a este
-        # bloque. Ya no existe un "aviso macro" que mostrar en el mensaje
-        # de apertura, porque una señal desalineada nunca llega a abrirse.
+        # macro_aligned es siempre True: si hubiera sido False,
+        # determine_signal_quality habría devuelto "descartada" y no se
+        # habría llegado a este bloque.
 
         new_pos = {
             "dir": signal["direction"],
