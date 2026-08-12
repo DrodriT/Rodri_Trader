@@ -45,7 +45,7 @@
     false,
     false
   ],
-  "dynamic_min_score": 65,
+  "dynamic_min_score": 70,
   "trade_log": [
     {
       "symbol": "ETH/USDT:USDT",
@@ -142,5 +142,5 @@
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-12T10:50:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-12T10:50:00+00:00",
   "DOGE/USDT:USDT_last_processed_candle": "2026-08-12T10:50:00+00:00",
-  "XLM/USDT:USDT_last_monitored_candle": "2026-08-12T10:51:00+00:00"
+  "XLM/USDT:USDT_last_monitored_candle": "2026-08-12T10:52:00+00:00"
 }
