@@ -403,8 +403,8 @@ def check_symbol(exchange, symbol: str, state: dict, now: datetime, cfg) -> None
             print(f"[ERROR gráfico] {e}")
             chart_path = None
 
-        tg.notify_signal_opened(cfg, symbol, pos, "", last_candle_time, chart_path=chart_path)
-        console_msg = tg.build_signal_open_message(cfg, symbol, pos, "", last_candle_time)
+        tg.notify_signal_opened(cfg, symbol, pos, last_candle_time, chart_path=chart_path)
+        console_msg = tg.build_signal_open_message(cfg, symbol, pos, last_candle_time)
         print(console_msg.replace("*", "").replace("`", ""))
 
     # ── 4. Comprobar hits de SL/TP en timeframe de seguimiento (1m) ──

@@ -36,6 +36,16 @@ señalada explícitamente más abajo.
 NOTA: context_line() existía en el original pero no se llamaba desde
 ningún sitio en bot_rodri.py — se eliminó en esta migración por no
 tener uso (YAGNI).
+
+CAMBIO (acordado explícitamente): build_signal_open_message /
+notify_signal_opened perdieron el parámetro 'macro_warning'. Nacía de
+que el bot_rodri.py original solo AVISABA cuando la tendencia de 15m no
+coincidía con la señal, pero nunca bloqueaba la apertura. Desde que
+engine/bot_engine.py convirtió esa desalineación en un filtro duro que
+descarta la señal ANTES de abrir posición, una señal que llega a abrirse
+tiene SIEMPRE macro_aligned=True — por lo tanto el aviso nunca podía
+tener contenido real en el mensaje de apertura, y mantenerlo habría sido
+un parámetro muerto (YAGNI).
 """
 from telegram.client import send_telegram, send_telegram_photo
 
@@ -99,10 +109,14 @@ def notify_startup(cfg, strategy_names: list[str]) -> None:
 # Apertura de señal
 # ─────────────────────────────────────────────────────────
 
-def build_signal_open_message(cfg, symbol: str, pos: dict, macro_warning: str, last_candle_time: str) -> str:
+def build_signal_open_message(cfg, symbol: str, pos: dict, last_candle_time: str) -> str:
     """
     Mensaje de apertura de señal. 'pos' debe traer: dir, entry, sl, tp1,
     tp2, tp3, tp_rr, score, prob, strategies, leverage, is_red.
+
+    No recibe aviso de desalineación macro: una señal que llega a
+    generar este mensaje ya pasó el filtro macro duro de
+    engine/bot_engine.py (macro_aligned=True siempre en este punto).
     """
     direction = pos["dir"]
     emoji = "🟢" if direction == "ALCISTA" else "🔴"
@@ -120,8 +134,7 @@ def build_signal_open_message(cfg, symbol: str, pos: dict, macro_warning: str, l
 
     return (
         f"{emoji} *{sym} | {dir_label}*{red_tag}\n"
-        f"Score {pos['score']} | Prob {pos['prob'] * 100:.0f}% | {fmt_strategies(pos['strategies'])}\n"
-        f"{macro_warning}\n\n"
+        f"Score {pos['score']} | Prob {pos['prob'] * 100:.0f}% | {fmt_strategies(pos['strategies'])}\n\n"
         f"💰 Entrada: `{pos['entry']:.4f}`\n"
         f"🔴 Stop Loss: `{pos['sl']:.4f}`{sl_pct}\n"
         f"⚡ Apalancamiento sugerido: {pos['leverage']}x\n\n"
@@ -132,7 +145,7 @@ def build_signal_open_message(cfg, symbol: str, pos: dict, macro_warning: str, l
     )
 
 
-def notify_signal_opened(cfg, symbol: str, pos: dict, macro_warning: str, last_candle_time: str,
+def notify_signal_opened(cfg, symbol: str, pos: dict, last_candle_time: str,
                           chart_path: str | None = None) -> None:
     """
     Manda el mensaje de apertura de señal. Si 'chart_path' viene informado
@@ -141,7 +154,7 @@ def notify_signal_opened(cfg, symbol: str, pos: dict, macro_warning: str, last_c
     gráfico es responsabilidad de quien llama (engine/bot_engine.py, vía
     charting/chart_generator.py) — este módulo no sabe nada de gráficos.
     """
-    msg = build_signal_open_message(cfg, symbol, pos, macro_warning, last_candle_time)
+    msg = build_signal_open_message(cfg, symbol, pos, last_candle_time)
     if chart_path:
         send_telegram_photo(cfg, chart_path, msg)
     else:
