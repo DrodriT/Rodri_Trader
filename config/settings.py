@@ -112,6 +112,9 @@ TREND_ADX_MIN: int = 20          # ADX mínimo para considerar "tendencia establ
 DIVERGENCE_LOOKBACK: int = 30    # ventana para buscar los 2 swings de la divergencia
 VP_LOOKBACK: int = 100           # velas para construir el Volume Profile
 VP_BINS: int = 24
+OB_CANDLE_SEARCH: int = 10       # velas hacia atrás para buscar la vela opuesta (Order Block)
+OB_LOOKBACK: int = 70            # velas hacia atrás para buscar el swing estructural que rompe el impulso
+OB_IMPULSE_ATR_MULT: float = 1.5 # múltiplo de ATR que debe superar el rango de la vela de impulso
 
 
 # ─────────────────────────────────────────────────────────
@@ -130,6 +133,7 @@ STRATEGY_WEIGHTS: dict[str, int] = {
     "RSI_DIVERGENCE": 100,
     "VP_MEAN_REVERT": 100,
     "LIQUIDITY_GRAB": 100,
+    "ORDER_BLOCK": 100,
 }
 
 
