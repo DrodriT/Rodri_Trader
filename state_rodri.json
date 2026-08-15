@@ -1,37 +1,7 @@
 {
-  "positions": {
-    "ETH/USDT:USDT": {
-      "dir": "ALCISTA",
-      "entry": 1881.12,
-      "entry_candle": "2026-08-15T00:00:00+00:00",
-      "sl": 1881.12,
-      "tp1": 1883.1482142857142,
-      "tp2": 1884.5679642857142,
-      "tp3": 1884.5679642857142,
-      "tp_rr": [
-        1.0,
-        1.7,
-        1.7
-      ],
-      "tp1_reached": true,
-      "tp2_reached": false,
-      "tp3_reached": false,
-      "be_active": true,
-      "score": 27,
-      "prob": 0.45,
-      "strategies": [
-        "RSI_DIVERGENCE"
-      ],
-      "confluence": 1,
-      "leverage": 20,
-      "is_red": true,
-      "size_factor": 0.3,
-      "macro_trend": "ALCISTA",
-      "macro_aligned": true
-    }
-  },
+  "positions": {},
   "cooldowns": {
-    "ETH/USDT:USDT": "2026-08-12T10:14:32.272589+00:00",
+    "ETH/USDT:USDT": "2026-08-15T06:18:33.028525+00:00",
     "OP/USDT:USDT": "2026-08-12T10:25:37.320657+00:00",
     "AVAX/USDT:USDT": "2026-08-12T14:50:47.799612+00:00",
     "XLM/USDT:USDT": "2026-08-14T18:32:32.057563+00:00",
@@ -53,10 +23,10 @@
   "recent_results": [
     false,
     false,
-    false,
     true,
     false,
     false,
+    true,
     true,
     true,
     true,
@@ -476,6 +446,25 @@
       "close_reason": "sl_be",
       "entry_candle": "2026-08-15T01:25:00+00:00",
       "closed_at": "2026-08-15T02:05:38.420803+00:00"
+    },
+    {
+      "symbol": "ETH/USDT:USDT",
+      "dir": "ALCISTA",
+      "strategies": [
+        "RSI_DIVERGENCE"
+      ],
+      "confluence": 1,
+      "score": 27,
+      "prob": 0.45,
+      "is_red": true,
+      "leverage": 20,
+      "entry": 1881.12,
+      "exit": 1884.44,
+      "r_result": 0.44,
+      "is_win": true,
+      "close_reason": "tp3",
+      "entry_candle": "2026-08-15T00:00:00+00:00",
+      "closed_at": "2026-08-15T02:18:33.028525+00:00"
     }
   ],
   "stats": {
@@ -486,13 +475,13 @@
     "short_signals": 17,
     "sl_hits": 18,
     "tp1_hits": 9,
-    "tp2_hits": 3,
-    "tp3_hits": 3,
+    "tp2_hits": 4,
+    "tp3_hits": 4,
     "flips": 0,
-    "wins": 8,
+    "wins": 9,
     "losses": 13,
     "be_saves": 5,
-    "r_sum": -4.56
+    "r_sum": -4.119999999999999
   },
   "last_daily_summary_date": "2026-08-15",
   "startup_notified": true,
@@ -513,6 +502,5 @@
   "OP/USDT:USDT_last_processed_candle": "2026-08-15T02:15:00+00:00",
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-15T02:15:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-15T02:15:00+00:00",
-  "DOGE/USDT:USDT_last_processed_candle": "2026-08-15T02:15:00+00:00",
-  "ETH/USDT:USDT_last_monitored_candle": "2026-08-15T02:17:00+00:00"
+  "DOGE/USDT:USDT_last_processed_candle": "2026-08-15T02:15:00+00:00"
 }
