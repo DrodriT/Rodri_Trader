@@ -4,7 +4,7 @@
       "dir": "BAJISTA",
       "entry": 75.512,
       "entry_candle": "2026-08-15T14:35:00+00:00",
-      "sl": 75.57146428571428,
+      "sl": 75.512,
       "tp1": 75.45253571428572,
       "tp2": 75.39307142857143,
       "tp3": 75.33360714285715,
@@ -13,10 +13,10 @@
         2.0,
         3.0
       ],
-      "tp1_reached": false,
+      "tp1_reached": true,
       "tp2_reached": false,
       "tp3_reached": false,
-      "be_active": false,
+      "be_active": true,
       "score": 75,
       "prob": 0.71,
       "strategies": [
@@ -585,7 +585,7 @@
     "long_signals": 6,
     "short_signals": 21,
     "sl_hits": 22,
-    "tp1_hits": 9,
+    "tp1_hits": 10,
     "tp2_hits": 4,
     "tp3_hits": 4,
     "flips": 0,
@@ -614,5 +614,5 @@
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-15T14:45:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-15T14:45:00+00:00",
   "DOGE/USDT:USDT_last_processed_candle": "2026-08-15T14:45:00+00:00",
-  "SOL/USDT:USDT_last_monitored_candle": "2026-08-15T14:45:00+00:00"
+  "SOL/USDT:USDT_last_monitored_candle": "2026-08-15T14:46:00+00:00"
 }
