@@ -14,7 +14,7 @@
         3.0
       ],
       "tp1_reached": true,
-      "tp2_reached": false,
+      "tp2_reached": true,
       "tp3_reached": false,
       "be_active": true,
       "score": 56,
@@ -1449,7 +1449,7 @@
     "short_signals": 41,
     "sl_hits": 52,
     "tp1_hits": 35,
-    "tp2_hits": 17,
+    "tp2_hits": 18,
     "tp3_hits": 16,
     "flips": 0,
     "wins": 33,
@@ -1477,6 +1477,6 @@
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-20T20:30:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-20T20:30:00+00:00",
   "DOGE/USDT:USDT_last_processed_candle": "2026-08-20T20:30:00+00:00",
-  "HBAR/USDT:USDT_last_monitored_candle": "2026-08-20T20:31:00+00:00",
-  "XLM/USDT:USDT_last_monitored_candle": "2026-08-20T20:31:00+00:00"
+  "HBAR/USDT:USDT_last_monitored_candle": "2026-08-20T20:32:00+00:00",
+  "XLM/USDT:USDT_last_monitored_candle": "2026-08-20T20:32:00+00:00"
 }
