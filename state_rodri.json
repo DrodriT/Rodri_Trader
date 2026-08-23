@@ -2131,5 +2131,10 @@
   "OP/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
   "NEAR/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
   "XMR/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
-  "DOGE/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00"
+  "DOGE/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
+  "UNI/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
+  "FIL/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
+  "LINK/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
+  "DOT/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00",
+  "ETC/USDT:USDT_last_processed_candle": "2026-08-23T21:45:00+00:00"
 }
