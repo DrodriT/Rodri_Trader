@@ -70,7 +70,7 @@ SYMBOLS: list[str] = [
     "DOGE/USDT:USDT",
     "UNI/USDT:USDT",
     "FIL/USDT:USDT",
-    "ATO/USDT:USDT",
+    "ATOM/USDT:USDT",
     "LINK/USDT:USDT",
     "DOT/USDT:USDT",
     "ETC/USDT:USDT",
