@@ -1,35 +1,5 @@
 {
   "positions": {
-    "ETH/USDT:USDT": {
-      "dir": "BAJISTA",
-      "entry": 2450.94,
-      "entry_candle": "2026-08-29T16:20:00+00:00",
-      "sl": 2450.94,
-      "tp1": 2446.635,
-      "tp2": 2442.33,
-      "tp3": 2438.025,
-      "tp_rr": [
-        1.0,
-        2.0,
-        3.0
-      ],
-      "tp1_reached": true,
-      "tp2_reached": false,
-      "tp3_reached": false,
-      "be_active": true,
-      "score": 61,
-      "prob": 0.64,
-      "strategies": [
-        "RSI_DIVERGENCE",
-        "VP_MEAN_REVERT"
-      ],
-      "confluence": 2,
-      "leverage": 20,
-      "is_red": false,
-      "size_factor": 1.0,
-      "macro_trend": "BAJISTA",
-      "macro_aligned": true
-    },
     "HBAR/USDT:USDT": {
       "dir": "BAJISTA",
       "entry": 0.07536,
@@ -62,7 +32,7 @@
     }
   },
   "cooldowns": {
-    "ETH/USDT:USDT": "2026-08-27T09:32:30.375242+00:00",
+    "ETH/USDT:USDT": "2026-08-29T20:41:32.841440+00:00",
     "OP/USDT:USDT": "2026-08-27T13:27:27.955652+00:00",
     "AVAX/USDT:USDT": "2026-08-23T04:27:31.284062+00:00",
     "XLM/USDT:USDT": "2026-08-28T04:08:40.554821+00:00",
@@ -92,7 +62,6 @@
   },
   "recent_results": [
     false,
-    false,
     true,
     true,
     false,
@@ -100,6 +69,7 @@
     true,
     true,
     false,
+    true,
     true
   ],
   "dynamic_min_score": 50,
@@ -2870,6 +2840,26 @@
       "close_reason": "sl_be",
       "entry_candle": "2026-08-29T15:30:00+00:00",
       "closed_at": "2026-08-29T16:33:39.417162+00:00"
+    },
+    {
+      "symbol": "ETH/USDT:USDT",
+      "dir": "BAJISTA",
+      "strategies": [
+        "RSI_DIVERGENCE",
+        "VP_MEAN_REVERT"
+      ],
+      "confluence": 2,
+      "score": 61,
+      "prob": 0.64,
+      "is_red": false,
+      "leverage": 20,
+      "entry": 2450.94,
+      "exit": 2451.01,
+      "r_result": 0.3333,
+      "is_win": true,
+      "close_reason": "sl_be",
+      "entry_candle": "2026-08-29T16:20:00+00:00",
+      "closed_at": "2026-08-29T16:41:32.841440+00:00"
     }
   ],
   "stats": {
@@ -2878,15 +2868,15 @@
     "red_signals": 36,
     "long_signals": 72,
     "short_signals": 70,
-    "sl_hits": 106,
+    "sl_hits": 107,
     "tp1_hits": 73,
     "tp2_hits": 39,
     "tp3_hits": 34,
     "flips": 0,
-    "wins": 72,
+    "wins": 73,
     "losses": 68,
-    "be_saves": 38,
-    "r_sum": 10.200000000000001
+    "be_saves": 39,
+    "r_sum": 10.533333333333335
   },
   "last_daily_summary_date": "2026-08-29",
   "startup_notified": true,
@@ -2914,6 +2904,5 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-08-29T16:40:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-08-29T16:40:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-08-29T16:40:00+00:00",
-  "ETH/USDT:USDT_last_monitored_candle": "2026-08-29T16:40:00+00:00",
-  "HBAR/USDT:USDT_last_monitored_candle": "2026-08-29T16:40:00+00:00"
+  "HBAR/USDT:USDT_last_monitored_candle": "2026-08-29T16:41:00+00:00"
 }
