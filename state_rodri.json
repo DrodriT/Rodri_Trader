@@ -1,36 +1,5 @@
 {
-  "positions": {
-    "NEAR/USDT:USDT": {
-      "dir": "ALCISTA",
-      "entry": 1.9201,
-      "entry_candle": "2026-09-01T19:00:00+00:00",
-      "sl": 1.9008785714285714,
-      "tp1": 1.9393214285714284,
-      "tp2": 1.9585428571428571,
-      "tp3": 1.9777642857142856,
-      "tp_rr": [
-        1.0,
-        2.0,
-        3.0
-      ],
-      "tp1_reached": false,
-      "tp2_reached": false,
-      "tp3_reached": false,
-      "be_active": false,
-      "score": 78,
-      "prob": 0.73,
-      "strategies": [
-        "RSI_DIVERGENCE",
-        "VP_MEAN_REVERT"
-      ],
-      "confluence": 2,
-      "leverage": 17,
-      "is_red": false,
-      "size_factor": 1.0,
-      "macro_trend": "ALCISTA",
-      "macro_aligned": true
-    }
-  },
+  "positions": {},
   "cooldowns": {
     "ETH/USDT:USDT": "2026-08-29T20:41:32.841440+00:00",
     "OP/USDT:USDT": "2026-09-01T22:22:36.267504+00:00",
@@ -47,7 +16,7 @@
     "BTC/USDT:USDT": "2026-08-30T04:17:35.550211+00:00",
     "SOL/USDT:USDT": "2026-08-23T04:36:34.564970+00:00",
     "XMR/USDT:USDT": "2026-08-31T05:37:27.679818+00:00",
-    "NEAR/USDT:USDT": "2026-09-01T15:34:43.437562+00:00",
+    "NEAR/USDT:USDT": "2026-09-01T23:47:34.819701+00:00",
     "SUI/USDT:USDT": "2026-08-30T10:40:49.667724+00:00",
     "LTC/USDT:USDT": "2026-08-28T18:07:29.616248+00:00",
     "ATOM/USDT:USDT": "2026-08-31T11:01:26.956593+00:00",
@@ -64,13 +33,13 @@
   "recent_results": [
     false,
     false,
-    false,
     true,
     false,
     true,
     true,
     true,
     true,
+    false,
     false
   ],
   "dynamic_min_score": 50,
@@ -3536,6 +3505,26 @@
       "close_reason": "sl",
       "entry_candle": "2026-09-01T18:10:00+00:00",
       "closed_at": "2026-09-01T18:22:36.267504+00:00"
+    },
+    {
+      "symbol": "NEAR/USDT:USDT",
+      "dir": "ALCISTA",
+      "strategies": [
+        "RSI_DIVERGENCE",
+        "VP_MEAN_REVERT"
+      ],
+      "confluence": 2,
+      "score": 78,
+      "prob": 0.73,
+      "is_red": false,
+      "leverage": 17,
+      "entry": 1.9201,
+      "exit": 1.9005,
+      "r_result": -1.0,
+      "is_win": false,
+      "close_reason": "sl",
+      "entry_candle": "2026-09-01T19:00:00+00:00",
+      "closed_at": "2026-09-01T19:47:34.819701+00:00"
     }
   ],
   "stats": {
@@ -3544,15 +3533,15 @@
     "red_signals": 42,
     "long_signals": 84,
     "short_signals": 92,
-    "sl_hits": 134,
+    "sl_hits": 135,
     "tp1_hits": 92,
     "tp2_hits": 48,
     "tp3_hits": 41,
     "flips": 0,
     "wins": 92,
-    "losses": 83,
+    "losses": 84,
     "be_saves": 51,
-    "r_sum": 9.48666666666667
+    "r_sum": 8.48666666666667
   },
   "last_daily_summary_date": "2026-09-01",
   "startup_notified": true,
@@ -3579,6 +3568,5 @@
   "LINK/USDT:USDT_last_processed_candle": "2026-09-01T19:45:00+00:00",
   "DOT/USDT:USDT_last_processed_candle": "2026-09-01T19:45:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-01T19:45:00+00:00",
-  "ATOM/USDT:USDT_last_processed_candle": "2026-09-01T19:45:00+00:00",
-  "NEAR/USDT:USDT_last_monitored_candle": "2026-09-01T19:46:00+00:00"
+  "ATOM/USDT:USDT_last_processed_candle": "2026-09-01T19:45:00+00:00"
 }
