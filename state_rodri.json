@@ -14,7 +14,7 @@
         3.0
       ],
       "tp1_reached": true,
-      "tp2_reached": false,
+      "tp2_reached": true,
       "tp3_reached": false,
       "be_active": true,
       "score": 56,
@@ -3506,7 +3506,7 @@
     "short_signals": 92,
     "sl_hits": 133,
     "tp1_hits": 92,
-    "tp2_hits": 47,
+    "tp2_hits": 48,
     "tp3_hits": 40,
     "flips": 0,
     "wins": 91,
@@ -3540,5 +3540,5 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-01T15:05:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-01T15:05:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-01T15:05:00+00:00",
-  "INJ/USDT:USDT_last_monitored_candle": "2026-09-01T15:06:00+00:00"
+  "INJ/USDT:USDT_last_monitored_candle": "2026-09-01T15:07:00+00:00"
 }
