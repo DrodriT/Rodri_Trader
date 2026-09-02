@@ -73,7 +73,7 @@
     false,
     false
   ],
-  "dynamic_min_score": 50,
+  "dynamic_min_score": 55,
   "trade_log": [
     {
       "symbol": "ETH/USDT:USDT",
@@ -3799,5 +3799,5 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-02T11:20:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-02T11:20:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-02T11:20:00+00:00",
-  "ICP/USDT:USDT_last_monitored_candle": "2026-09-02T11:23:00+00:00"
+  "ICP/USDT:USDT_last_monitored_candle": "2026-09-02T11:24:00+00:00"
 }
