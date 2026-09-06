@@ -4,7 +4,7 @@
       "dir": "ALCISTA",
       "entry": 2479.65,
       "entry_candle": "2026-09-06T00:00:00+00:00",
-      "sl": 2475.568928571429,
+      "sl": 2479.65,
       "tp1": 2483.7310714285713,
       "tp2": 2486.5878214285713,
       "tp3": 2486.5878214285713,
@@ -13,10 +13,10 @@
         1.7,
         1.7
       ],
-      "tp1_reached": false,
+      "tp1_reached": true,
       "tp2_reached": false,
       "tp3_reached": false,
-      "be_active": false,
+      "be_active": true,
       "score": 22,
       "prob": 0.42,
       "strategies": [
@@ -4106,7 +4106,7 @@
     "long_signals": 97,
     "short_signals": 107,
     "sl_hits": 157,
-    "tp1_hits": 103,
+    "tp1_hits": 104,
     "tp2_hits": 56,
     "tp3_hits": 45,
     "flips": 0,
@@ -4141,6 +4141,6 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-06T00:25:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-06T00:25:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-06T00:25:00+00:00",
-  "ETH/USDT:USDT_last_monitored_candle": "2026-09-06T00:26:00+00:00",
-  "XRP/USDT:USDT_last_monitored_candle": "2026-09-06T00:26:00+00:00"
+  "ETH/USDT:USDT_last_monitored_candle": "2026-09-06T00:27:00+00:00",
+  "XRP/USDT:USDT_last_monitored_candle": "2026-09-06T00:27:00+00:00"
 }
