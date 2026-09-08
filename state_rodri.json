@@ -4,7 +4,7 @@
       "dir": "BAJISTA",
       "entry": 1.3983,
       "entry_candle": "2026-09-08T10:35:00+00:00",
-      "sl": 1.402275,
+      "sl": 1.3983,
       "tp1": 1.3943250000000003,
       "tp2": 1.3903500000000002,
       "tp3": 1.3863750000000004,
@@ -13,10 +13,10 @@
         2.0,
         3.0
       ],
-      "tp1_reached": false,
+      "tp1_reached": true,
       "tp2_reached": false,
       "tp3_reached": false,
-      "be_active": false,
+      "be_active": true,
       "score": 54,
       "prob": 0.6,
       "strategies": [
@@ -34,7 +34,7 @@
       "dir": "BAJISTA",
       "entry": 0.2197,
       "entry_candle": "2026-09-08T10:35:00+00:00",
-      "sl": 0.22080357142857143,
+      "sl": 0.2197,
       "tp1": 0.21859642857142858,
       "tp2": 0.21749285714285715,
       "tp3": 0.2163892857142857,
@@ -43,10 +43,10 @@
         2.0,
         3.0
       ],
-      "tp1_reached": false,
+      "tp1_reached": true,
       "tp2_reached": false,
       "tp3_reached": false,
-      "be_active": false,
+      "be_active": true,
       "score": 75,
       "prob": 0.71,
       "strategies": [
@@ -4783,7 +4783,7 @@
     "long_signals": 121,
     "short_signals": 117,
     "sl_hits": 180,
-    "tp1_hits": 124,
+    "tp1_hits": 126,
     "tp2_hits": 69,
     "tp3_hits": 56,
     "flips": 0,
@@ -4818,6 +4818,6 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-08T11:05:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-08T11:05:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-08T11:05:00+00:00",
-  "XRP/USDT:USDT_last_monitored_candle": "2026-09-08T11:06:00+00:00",
-  "ADA/USDT:USDT_last_monitored_candle": "2026-09-08T11:06:00+00:00"
+  "XRP/USDT:USDT_last_monitored_candle": "2026-09-08T11:07:00+00:00",
+  "ADA/USDT:USDT_last_monitored_candle": "2026-09-08T11:07:00+00:00"
 }
