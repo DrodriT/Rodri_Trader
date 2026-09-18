@@ -28,40 +28,11 @@
       "size_factor": 0.3,
       "macro_trend": "ALCISTA",
       "macro_aligned": true
-    },
-    "OP/USDT:USDT": {
-      "dir": "ALCISTA",
-      "entry": 0.1008,
-      "entry_candle": "2026-09-18T00:25:00+00:00",
-      "sl": 0.1008,
-      "tp1": 0.10111071428571429,
-      "tp2": 0.10132821428571429,
-      "tp3": 0.10132821428571429,
-      "tp_rr": [
-        1.0,
-        1.7,
-        1.7
-      ],
-      "tp1_reached": true,
-      "tp2_reached": false,
-      "tp3_reached": false,
-      "be_active": true,
-      "score": 52,
-      "prob": 0.59,
-      "strategies": [
-        "TREND_PULLBACK"
-      ],
-      "confluence": 1,
-      "leverage": 20,
-      "is_red": true,
-      "size_factor": 0.3,
-      "macro_trend": "ALCISTA",
-      "macro_aligned": true
     }
   },
   "cooldowns": {
     "ETH/USDT:USDT": "2026-09-18T02:09:30.072086+00:00",
-    "OP/USDT:USDT": "2026-09-10T04:05:46.529520+00:00",
+    "OP/USDT:USDT": "2026-09-18T04:34:36.338736+00:00",
     "AVAX/USDT:USDT": "2026-09-16T04:05:46.023134+00:00",
     "XLM/USDT:USDT": "2026-09-18T04:18:40.481270+00:00",
     "BCH/USDT:USDT": "2026-09-13T04:05:41.648172+00:00",
@@ -95,33 +66,14 @@
     false,
     false,
     false,
-    false,
     true,
     false,
     false,
-    false
+    false,
+    true
   ],
   "dynamic_min_score": 75,
   "trade_log": [
-    {
-      "symbol": "OP/USDT:USDT",
-      "dir": "ALCISTA",
-      "strategies": [
-        "VP_MEAN_REVERT"
-      ],
-      "confluence": 1,
-      "score": 70,
-      "prob": 0.69,
-      "is_red": true,
-      "leverage": 20,
-      "entry": 0.0908,
-      "exit": 0.0905,
-      "r_result": -0.3,
-      "is_win": false,
-      "close_reason": "sl",
-      "entry_candle": "2026-08-12T06:05:00+00:00",
-      "closed_at": "2026-08-12T06:25:37.320657+00:00"
-    },
     {
       "symbol": "AVAX/USDT:USDT",
       "dir": "BAJISTA",
@@ -6036,6 +5988,25 @@
       "close_reason": "sl",
       "entry_candle": "2026-09-17T22:45:00+00:00",
       "closed_at": "2026-09-18T00:18:40.481270+00:00"
+    },
+    {
+      "symbol": "OP/USDT:USDT",
+      "dir": "ALCISTA",
+      "strategies": [
+        "TREND_PULLBACK"
+      ],
+      "confluence": 1,
+      "score": 52,
+      "prob": 0.59,
+      "is_red": true,
+      "leverage": 20,
+      "entry": 0.1008,
+      "exit": 0.1014,
+      "r_result": 0.44,
+      "is_win": true,
+      "close_reason": "tp3",
+      "entry_candle": "2026-09-18T00:25:00+00:00",
+      "closed_at": "2026-09-18T00:34:36.338736+00:00"
     }
   ],
   "stats": {
@@ -6046,13 +6017,13 @@
     "short_signals": 156,
     "sl_hits": 232,
     "tp1_hits": 153,
-    "tp2_hits": 85,
-    "tp3_hits": 69,
+    "tp2_hits": 86,
+    "tp3_hits": 70,
     "flips": 0,
-    "wins": 152,
+    "wins": 153,
     "losses": 149,
     "be_saves": 83,
-    "r_sum": 17.673333333333318
+    "r_sum": 18.11333333333332
   },
   "last_daily_summary_date": "2026-09-18",
   "startup_notified": true,
@@ -6080,6 +6051,5 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-18T00:30:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-18T00:30:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-18T00:30:00+00:00",
-  "AAVE/USDT:USDT_last_monitored_candle": "2026-09-18T00:33:00+00:00",
-  "OP/USDT:USDT_last_monitored_candle": "2026-09-18T00:33:00+00:00"
+  "AAVE/USDT:USDT_last_monitored_candle": "2026-09-18T00:34:00+00:00"
 }
