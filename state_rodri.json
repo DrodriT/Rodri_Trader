@@ -4,7 +4,7 @@
       "dir": "ALCISTA",
       "entry": 1.6133,
       "entry_candle": "2026-09-18T04:30:00+00:00",
-      "sl": 1.6038071428571428,
+      "sl": 1.6133,
       "tp1": 1.6227928571428571,
       "tp2": 1.6322857142857143,
       "tp3": 1.6417785714285715,
@@ -13,10 +13,10 @@
         2.0,
         3.0
       ],
-      "tp1_reached": false,
+      "tp1_reached": true,
       "tp2_reached": false,
       "tp3_reached": false,
-      "be_active": false,
+      "be_active": true,
       "score": 78,
       "prob": 0.73,
       "strategies": [
@@ -6016,7 +6016,7 @@
     "long_signals": 148,
     "short_signals": 156,
     "sl_hits": 232,
-    "tp1_hits": 154,
+    "tp1_hits": 155,
     "tp2_hits": 87,
     "tp3_hits": 71,
     "flips": 0,
@@ -6051,5 +6051,5 @@
   "DOT/USDT:USDT_last_processed_candle": "2026-09-18T04:45:00+00:00",
   "ETC/USDT:USDT_last_processed_candle": "2026-09-18T04:45:00+00:00",
   "ATOM/USDT:USDT_last_processed_candle": "2026-09-18T04:45:00+00:00",
-  "ATOM/USDT:USDT_last_monitored_candle": "2026-09-18T04:45:00+00:00"
+  "ATOM/USDT:USDT_last_monitored_candle": "2026-09-18T04:46:00+00:00"
 }
